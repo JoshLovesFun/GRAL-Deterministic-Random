@@ -44,9 +44,20 @@ namespace GRAL_2001
         public static void Calculate(int nteil)
         {
             //random number generator seeds
-            int rnd = (Environment.TickCount + nteil) & Int32.MaxValue;
-            uint m_w = (uint)(rnd + 521288629);
-            uint m_z = (uint)(rnd + 2232121);
+            uint m_w;
+            uint m_z;
+            if (Program.UseFixedRndSeedVal)
+            {
+                var seeds = new Program.ParticleRndSeeds((uint)nteil, (uint)Program.IWET);
+                m_w = seeds.Seed1;
+                m_z = seeds.Seed2;
+            }
+            else
+            {
+                int rnd = (Environment.TickCount + nteil) & Int32.MaxValue;
+                m_w = (uint)(rnd + 521288629);
+                m_z = (uint)(rnd + 2232121);
+            }
             
             float zahl1 = 0;
             uint u_rg = 0;
